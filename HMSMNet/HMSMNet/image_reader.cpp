@@ -1,12 +1,12 @@
 #include "image_reader.h"
 
 
-// ¶ÁÈ¡×óÍ¼È»ºó±ê×¼»¯£¬¼ÆËãgx£¬gy£¬×îºó°ÑËüÃÇµÄÖµ·Åµ½left£¬gx£¬gyÖĞ
+// è¯»å–å·¦å›¾ç„¶åæ ‡å‡†åŒ–ï¼Œè®¡ç®—gxï¼Œgyï¼Œæœ€åæŠŠå®ƒä»¬çš„å€¼æ”¾åˆ°leftï¼Œgxï¼Œgyä¸­
 void readLeftImage(const std::string img_path, float* left, float* gx, float* gy) {
 	cv::Mat img = cv::imread(img_path, cv::IMREAD_UNCHANGED);
 	assert(img.cols = cols && img.rows == rows);
 
-	// ¼ÆËã¾ùÖµ
+	// è®¡ç®—å‡å€¼
 	float sum = 0.0;
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -15,7 +15,7 @@ void readLeftImage(const std::string img_path, float* left, float* gx, float* gy
 	}
 	float mean = sum / (rows * cols);
 
-	// ¼ÆËã±ê×¼²î
+	// è®¡ç®—æ ‡å‡†å·®
 	float sq_dev = 0.0;
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -24,7 +24,7 @@ void readLeftImage(const std::string img_path, float* left, float* gx, float* gy
 	}
 	float std_dev = sqrt(sq_dev / (rows * cols));
 
-	// Í¼Ïñ±ê×¼»¯
+	// å›¾åƒæ ‡å‡†åŒ–
 	cv::Mat nor_left = cv::Mat(rows, cols, CV_32F);
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -33,9 +33,7 @@ void readLeftImage(const std::string img_path, float* left, float* gx, float* gy
 		}
 	}
 
-	// ¼ÆËãÌİ¶Ègx£¬gy
-	cv::Mat dx = cv::Mat(rows, cols, CV_32F);
-	cv::Mat dy = cv::Mat(rows, cols, CV_32F);
+	// è®¡ç®—æ¢¯åº¦gxï¼Œgy
 	for (int i = 1; i < rows - 1; ++i) {
 		for (int j = 1; j < cols - 1; ++j) {
 			gx[i * cols + j] = nor_left.at<float>(i, j - 1) - nor_left.at<float>(i, j + 1);
@@ -53,12 +51,12 @@ void readLeftImage(const std::string img_path, float* left, float* gx, float* gy
 }
 
 
-// ¶ÁÈ¡ÓÒÍ¼È»ºó±ê×¼»¯£¬×îºó°ÑÖµ·Åµ½rightÖĞ
+// è¯»å–å³å›¾ç„¶åæ ‡å‡†åŒ–ï¼Œæœ€åæŠŠå€¼æ”¾åˆ°rightä¸­
 void readRightImage(const std::string img_path, float* right) {
 	cv::Mat img = cv::imread(img_path, cv::IMREAD_UNCHANGED);
 	assert(img.cols = cols && img.rows == rows);
 
-	// ¼ÆËã¾ùÖµ
+	// è®¡ç®—å‡å€¼
 	float sum = 0.0;
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -68,7 +66,7 @@ void readRightImage(const std::string img_path, float* right) {
 	}
 	float mean = sum / (rows * cols);
 
-	// ¼ÆËã±ê×¼²î
+	// è®¡ç®—æ ‡å‡†å·®
 	float sq_dev = 0.0;
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
@@ -77,7 +75,7 @@ void readRightImage(const std::string img_path, float* right) {
 	}
 	float std_dev = sqrt(sq_dev / (rows * cols));
 
-	// Í¼Ïñ±ê×¼»¯
+	// å›¾åƒæ ‡å‡†åŒ–
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
 			right[i * cols + j] = (float(img.at<ushort>(i, j)) - mean) / std_dev;
