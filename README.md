@@ -1,6 +1,8 @@
 # HMSMNet-with-Cpp
 将论文HMSM-Net: Hierarchical multi-scale matching network for diaparity estimation of high-resolution satellite stereo images中的Tensorflow模型部署到C++中，原文的模型使用Python 3.7和Tensorflow 2.5.0开发。
 
+适用于16-bit单波段遥感图像。
+
 HMSMNet：C++项目工程文件夹；
 
 Model Creation：HMSM-Net的Python代码；
